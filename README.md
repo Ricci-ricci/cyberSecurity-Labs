@@ -6,9 +6,6 @@ This repository contains a collection of Python scripts and modules focused on n
 
 The project is organized into several modules:
 
-### Core Script
-- **`portScanner.py`**: A multi-threaded port scanner capable of banner grabbing.
-
 ### Modules
 
 - **`01_fundamentals/`**: Basic Python concepts applied to networking and security.
