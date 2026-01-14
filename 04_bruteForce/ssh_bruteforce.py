@@ -34,6 +34,7 @@ def connect(host, user, password):
             time.sleep(5)
             connect(host, user, password)
     except Exception as e:
+        print(e)
         pass
     finally:
         connection_lock.release()

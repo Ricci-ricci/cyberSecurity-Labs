@@ -1,0 +1,3 @@
+/home/richie/Exploitation/portScanner/04_bruteForce/dummy_key1
+/home/richie/Exploitation/portScanner/04_bruteForce/dummy_key2
+/home/richie/Exploitation/portScanner/04_bruteForce/dummy_key3
