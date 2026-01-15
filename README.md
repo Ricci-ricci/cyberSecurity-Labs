@@ -30,3 +30,7 @@ python3 portScanner.py
 
 - Python 3.x
 - Standard Python libraries (socket, threading, optparse)
+
+## a lot of script are inspired by the book Violent Python by TJ O'Connor
+## i learned a lot from this book and i really recommend it
+## https://www.nostarch.com/violentpython
