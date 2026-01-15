@@ -15,6 +15,7 @@ The project is organized into several modules:
 - **`05_defensiveTools/`**: Scripts focusing on defensive programming and security monitoring.
 - **`06_webSecurity/`**: Tools related to web application security scanning and analysis.
 - **`07_labs/`**: Practical exercises and experimental scripts.
+- **`08_real_attacks/`**: Demonstrations of real-world attack vectors and infection methods.
 
 ## Usage
 

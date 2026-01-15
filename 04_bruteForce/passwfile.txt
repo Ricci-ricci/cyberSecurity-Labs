@@ -1,0 +1,9 @@
+admin:hello
+admin:admin
+admin:password
+admin:123456
+admin:letmein
+admin:qwerty
+admin:welcome
+admin:abc123
+admin:trustno1

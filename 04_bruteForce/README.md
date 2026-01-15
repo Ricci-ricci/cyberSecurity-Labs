@@ -16,3 +16,10 @@ Brute-forcing involves systematically checking all possible passwords or keys un
 
 **Strictly Educational Use Only.**
 Brute-forcing credentials on systems you do not own or have explicit permission to test is illegal and unethical. These scripts are intended for testing the strength of your own passwords or auditing systems within a controlled lab environment.
+
+
+
+
+## a lot of script are inspired by the book Violent Python by TJ O'Connor
+## i learned a lot from this book and i really recommend it
+## https://www.nostarch.com/violentpython
