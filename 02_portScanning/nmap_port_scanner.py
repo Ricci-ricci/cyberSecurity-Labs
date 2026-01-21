@@ -1,3 +1,4 @@
+# You have to install python nmap to use this script
 import optparse
 
 import nmap
