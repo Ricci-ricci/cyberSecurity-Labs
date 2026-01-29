@@ -1,5 +1,11 @@
 # 06 - Web Security
 
+## Disclaimer & Attribution
+
+All scripts in this module are created for **learning purposes only** and are intended to be used **only on systems you own or have explicit permission to test**.
+
+This module’s scripts and exercises are based on concepts and techniques referenced from the book **Black Hat Python (2nd Edition)**.
+
 This module contains tools and scripts dedicated to assessing the security of web applications.
 
 ## Overview
