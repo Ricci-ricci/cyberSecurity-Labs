@@ -30,6 +30,8 @@ TARGET = "http://testphp.vulnweb.com"
 
 # Wordlist file (default: a file located next to this script).
 # If you want a custom path, replace the value or pass a full path here.
+# change it with your own wordlist if you want i didn t add a wordlist for copyright reasons
+# and didn t parse argument parsing to keep it simple and goes with the book examples sorry xD
 WORDLIST = os.path.join(os.path.dirname(__file__), "common.txt")
 
 # Number of worker threads
