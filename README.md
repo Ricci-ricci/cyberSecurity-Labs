@@ -32,6 +32,19 @@ python3 portScanner.py
 - Python 3.x
 - Standard Python libraries (socket, threading, optparse)
 
-## a lot of script are inspired by the book Violent Python by TJ O'Connor
-## i learned a lot from this book and i really recommend it
-## https://www.nostarch.com/violentpython
+## Inspiration & Learning Resources
+
+Many scripts in this repository are inspired by the following excellent books:
+
+### Violent Python by TJ O'Connor
+A foundational book for Python-based security tools and network exploitation techniques.
+- https://www.nostarch.com/violentpython
+
+### Black Hat Python, 2nd Edition by Justin Seitz & Tim Arnold
+An advanced guide to Python for penetration testers and security professionals.
+- https://nostarch.com/black-hat-python-2nd-edition
+
+### Python Web Penetration Testing Cookbook by Cameron Buchanan et al.
+Comprehensive recipes for web application security testing using Python.
+
+I learned a tremendous amount from these books and highly recommend them to anyone interested in security automation and Python programming.
