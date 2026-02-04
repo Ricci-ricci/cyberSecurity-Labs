@@ -110,4 +110,4 @@ then with only the username:
 o
 ## so the objectif is to try out all the username with a password same as the username to see if we can find any valid credentials.
 
-command : netexec smb \\<IP_ADDRESS>\ -u user.txt -p user1.txt -no-bruteforce | grep -v FAILURE
+command : netexec smb \\<IP_ADDRESS>\ -u user.txt -p user1.txt --no-bruteforce | grep -v FAILURE
